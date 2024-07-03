@@ -33,6 +33,12 @@ class MessageService(BaseService):
 
     def get_all_message(self, chat_id):
         chat = self.db.query(Message).filter(Message.chat_id == chat_id).all()
+        if not chat:
+            return {
+                'status': "Error",
+                "message": "Chat not found"
+            }
+
         return [
             MessageResponse(
                 message_id=message.message_id,

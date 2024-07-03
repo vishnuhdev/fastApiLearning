@@ -1,4 +1,27 @@
-from pydantic import BaseModel
+import uuid
+from pydantic import BaseModel, Field
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+
+
+class TokenPayload(BaseModel):
+    exp: int = None
+    email: str = None
+    id: str = None
+    token_type: str = None
+
+
+class UserAuth(BaseModel):
+    email: str = Field(..., description="user email")
+    password: str = Field(..., min_length=5, max_length=24, description="user password")
+
+
+class TokenRequest(BaseModel):
+    id: str
+    email: str
 
 
 class user_request(BaseModel):
@@ -7,12 +30,6 @@ class user_request(BaseModel):
     mobile_number: str
 
 
-class login_request(BaseModel):
-    email: str
-    password: str
-
-
 class change_password_request(BaseModel):
-    email: str
     old_password: str
     new_password: str
